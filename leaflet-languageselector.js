@@ -54,7 +54,11 @@ L.LanguageSelector = L.Control.extend({
 			}
 			langDiv.id = 'languageselector_' + lang.id;
 			langDiv._langselinstance = this;
-			langDiv.addEventListener('click', this._languageChanged, false);
+			if (langDiv.addEventListener) {
+				langDiv.addEventListener('click', this._languageChanged, false);
+			} else {
+				langDiv.attachEvent('onclick', this._languageChanged);
+			}
 			if (this.options.hideSelected && this.options.initialLanguage && this.options.initialLanguage == lang.id) {
 				langDiv.style.display = 'none';
 			}
