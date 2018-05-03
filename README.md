@@ -8,7 +8,7 @@ Feel free to flattr me if you like it: [![alttext](http://api.flattr.com/button/
 [Leaflet](http://leafletjs.com/) is an open-source JavaScript library for online maps. Leaflet-languageselector is an extension for Leaflet based maps to add a language selector to the map. Languages can be represented by text or image. The words or images can be aligned horizontally or vertically. When a language is clicked a callback function is called. Doing the language change is then up to the caller.
 
 ## Demo
-An example map using this library (and others) can be seen here: http://map.comlu.com/openweathermap/
+An example map using this library (and others) can be seen here: https://ahorn.lima-city.de/owm/
 
 ## License
 
