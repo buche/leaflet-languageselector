@@ -1,3 +1,4 @@
+"use strict";
 /**
  * Adds a language selector to Leaflet based maps.
  * License: CC0 (Creative Commons Zero), see http://creativecommons.org/publicdomain/zero/1.0/
@@ -5,101 +6,140 @@
  **/
 L.LanguageSelector = L.Control.extend({
 
-	options: {
-		  languages: new Array()
-		, callback: null
-		, title: null
-		, position: 'topright'
-		, hideSelected: false
-		, vertical: false
-		, initialLanguage: null
-	},
+  includes: L.Evented.prototype,
 
-	initialize: function(options) {
-		this._buttons = new Array();
-		L.Util.setOptions(this, options);
-		this._container = L.DomUtil.create('div',
-			'leaflet-control-layers leaflet-control-layers-expanded leaflet-languageselector-control');
-		L.DomEvent.disableClickPropagation(this._container);
-		this._createLanguageSelector(this._container);
-	},
+  options: {
+    languages: new Array(),
+    callback: null,
+    title: null,
+    position: 'topright',
+    hideSelected: false,
+    vertical: true,
+    initialLanguage: null,
+    buttonClassName: 'leaflet-control-languageselector-button',
+    button: true
+  },
 
-	onAdd: function(map) {
-		this._map = map;
-		return this._container;
-	},
+  initialize: function(options) {
+    this._buttons = new Array();
+    L.Util.setOptions(this, options);
+    this._container = L.DomUtil.create('div',
+      'leaflet-control-layers leaflet-languageselector-control');
+    L.DomEvent.disableClickPropagation(this._container);
+    this._createLanguageSelector(this._container);
+  },
 
-	onRemove: function(map) {
-		this._container.style.display = 'none';
-		this._map = null;
-	},
+  onAdd: function(map) {
+    this._map = map;
+    if (this.options.button) {
+      L.DomUtil.addClass(this._container, this.options.buttonClassName);
+      L.DomEvent.on(this._container, 'mouseover', this._fireMouseOver, this);
+      L.DomEvent.on(this._container, 'mouseout', this._fireMouseOut, this);
+    }
+    return this._container;
+  },
 
-	_createLanguageSelector: function(container) {
-		if (this.options.title) {
-			var titleDiv = L.DomUtil.create('div', 'leaflet-languageselector-title', container);
-			titleDiv.innerHTML = this.options.title;
-		}
-		var languagesDiv = L.DomUtil.create('div', 'leaflet-languageselector-languagesdiv', container);
-		for (var i1=0; i1<this.options.languages.length; i1++) {
-			var lang = this.options.languages[i1];
-			var langDiv = L.DomUtil.create('div', 'leaflet-languageselector-langdiv'
-					+ (this.options.vertical ? '' : ' leaflet-languageselector-float-left')
-					+ (i1 > 0 ? ' leaflet-languageselector-mleft' : ''), languagesDiv);
-			if (lang.image) {
-				var img = L.DomUtil.create('img', '', langDiv);
-				img.src = lang.image;
-				img.title = (lang.displayText ? lang.displayText : lang.id);
-			} else {
-				langDiv.innerHTML = lang.displayText ? lang.displayText : lang.id;
-			}
-			langDiv.id = 'languageselector_' + lang.id;
-			langDiv._langselinstance = this;
-			if (langDiv.addEventListener) {
-				langDiv.addEventListener('click', this._languageChanged, false);
-			} else {
-				langDiv.attachEvent('onclick', this._languageChanged);
-			}
-			if (this.options.hideSelected && this.options.initialLanguage && this.options.initialLanguage == lang.id) {
-				langDiv.style.display = 'none';
-			}
-			this._buttons.push(langDiv);
-		}
-	},
+  onRemove: function(map) {
+    if (this.options.button) {
+      L.DomEvent.off(this._container, 'mouseover', this._fireMouseOver, this);
+      L.DomEvent.off(this._container, 'mouseout', this._fireMouseOut, this);
+    }
+    this._container.style.display = 'none';
+    this._map = null;
+  },
 
-	_languageChanged: function(pEvent) {
-		var elem = pEvent.target;
-		if (!elem._langselinstance) {
-			elem = elem.parentElement;
-		}
-		var inst = elem._langselinstance;
-		var lang = elem.id.substr(0,17) == 'languageselector_' ? elem.id.substr(17) : null;
+  _createLanguageSelector: function(container) {
+    if (this.options.title) {
+      let titleDiv = L.DomUtil.create('div', 'leaflet-languageselector-title', container);
+      titleDiv.innerHTML = this.options.title;
+    }
+    let languagesDiv = L.DomUtil.create('div', 'leaflet-languageselector-languagesdiv', container);
+    for (let i1 = 0; i1 < this.options.languages.length; i1++) {
+      let lang = this.options.languages[i1];
+      let langDiv = L.DomUtil.create('div', 'leaflet-languageselector-langdiv' +
+        (this.options.vertical ? '' : ' leaflet-languageselector-float-left') +
+        (i1 > 0 ? ' leaflet-languageselector-mleft' : ''), languagesDiv);
+      if (lang.image) {
+        let img = L.DomUtil.create('img', '', langDiv);
+        img.src = lang.image;
+        img.title = (lang.displayText ? lang.displayText : lang.id);
+      } else {
+        langDiv.innerHTML = lang.displayText ? lang.displayText : lang.id;
+      }
+      langDiv.id = 'languageselector_' + lang.id;
+      langDiv._langselinstance = this;
+      if (langDiv.addEventListener) {
+        langDiv.addEventListener('click', this._languageChanged, false);
+      } else {
+        langDiv.attachEvent('onclick', this._languageChanged);
+      }
+      if (this.options.hideSelected && this.options.initialLanguage && this.options.initialLanguage == lang.id) {
+        langDiv.style.display = 'none';
+      }
+      this._buttons.push(langDiv);
+    }
+  },
 
-		// hide language button
-		if (inst.options.hideSelected) {
-			for (var i=0; i<inst._buttons.length; i++) {
-				var b = inst._buttons[i];
-				if (b.id == elem.id) {
-					b.style.display = 'none';
-				} else {
-					b.style.display = 'block';
-				}
-			}
-		}
+  _languageChanged: function(pEvent) {
+    let elem = pEvent.target;
+    if (!elem._langselinstance) {
+      elem = elem.parentElement;
+    }
+    let inst = elem._langselinstance;
+    let lang = elem.id.substr(0, 17) == 'languageselector_' ? elem.id.substr(17) : null;
 
-		// callback
-		if (inst.options.callback && typeof inst.options.callback == 'function') {
-			inst.options.callback(lang);
-		}
-	}
+    // hide language button
+    if (inst.options.hideSelected) {
+      for (let i = 0; i < inst._buttons.length; i++) {
+        let b = inst._buttons[i];
+        if (b.id == elem.id) {
+          b.style.display = 'none';
+        } else {
+          b.style.display = 'block';
+        }
+      }
+    }
+
+    // callback
+    if (inst.options.callback && typeof inst.options.callback == 'function') {
+      inst.options.callback(lang);
+    }
+  },
+
+  _isButton: function() {
+    return L.DomUtil.hasClass(this._container, this.options.buttonClassName);
+  },
+
+  _toggleButton: function() {
+    if (this._isButton()) {
+      L.DomUtil.removeClass(this._container, this.options.buttonClassName);
+    } else {
+      L.DomUtil.addClass(this._container, this.options.buttonClassName);
+    }
+  },
+
+  _fireMouseOver: function(e) {
+    this.fire('mouseover');
+    this._toggleButton();
+  },
+
+  _fireMouseOut: function(e) {
+    if (!this._isButton()) {
+      this.fire('mouseout');
+      this._toggleButton();
+    }
+  },
 
 });
 
 L.langObject = function(langId, text, img) {
-	return {
-		id: langId,
-		displayText: text,
-		image: img
-	}
+  return {
+    id: langId,
+    displayText: text,
+    image: img
+  }
 };
 
-L.languageSelector = function(options) { return new L.LanguageSelector(options); };
+L.languageSelector = function(options) {
+  return new L.LanguageSelector(options);
+};

@@ -1,0 +1,27 @@
+body {
+  padding: 0;
+  margin: 0;
+}
+
+#map {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+#information {
+  font-size: 13px;
+  margin: auto;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 20%;
+  width: 50%;
+  background-color: rgba(255, 255, 255, 0.85);
+  box-shadow: 0 0 10px DimGray;
+  z-index: 7;
+  line-height: 150%;
+  padding: 10px;
+  border-radius: 10px;
+}
