@@ -84,7 +84,8 @@ If you provide an image, the image will be displayed as a symbol for the languag
 *leaflet-languageselector.css* is used to style the components of the control. Adapt it as you like.
 
 ## Language images
-Only some images are provided here. If you need more, there are a lot of free ones out there in the universe. For example https://openclipart.org/, http://commons.wikimedia.org/ or http://famfamfam.com/lab/icons/flags/ ("These flag icons are available for free use for any purpose with no requirement for attribution").
+Only some images are provided here - look at [Image info](/images/image_info.md). If you need more, there are a lot of free ones out there in the universe. For example https://openclipart.org/, http://commons.wikimedia.org/ or http://famfamfam.com/lab/icons/flags/ ("These flag icons are available for free use for any purpose with no requirement for attribution").
 
 ## Best practice for presenting languages
 Consider these clues about [Best practice for presenting languages](http://www.flagsarenotlanguages.com/blog/best-practice-for-presenting-languages/).
+
