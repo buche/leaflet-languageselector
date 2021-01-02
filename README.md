@@ -24,37 +24,37 @@ Here are the most important lines:
 
 ```html
 <head>
-	<script type="text/javascript" src="leaflet.js"></script>
-	<link rel="stylesheet" type="text/css" href="leaflet-languageselector.css" />
-	<script src="leaflet-languageselector.js"></script>
+  <script type="text/javascript" src="leaflet.js"></script>
+  <link rel="stylesheet" type="text/css" href="leaflet-languageselector.css" />
+  <script src="leaflet-languageselector.js"></script>
 </head>
 ```
 
 ```js
 // callback function for language change
 function changeLanguage(selectedLanguage) {
-	var url = updateLangParameter(window.location.href, selectedLanguage);
-	// Note updateLangParameter() is not shown here. It adds or replaces the language parameter of the document URL.
-	// Look at the demo page for an implementation if you need one.
-	window.location.href = url; // make it easy, just reload the page using the changed parameter
+  var url = updateLangParameter(window.location.href, selectedLanguage);
+  // Note updateLangParameter() is not shown here. It adds or replaces the language parameter of the document URL.
+  // Look at the demo page for an implementation if you need one.
+  window.location.href = url; // make it easy, just reload the page using the changed parameter
 }
 
 // initialize the map
 var osm = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-	maxZoom: 18, attribution: '[insert correct attribution here!]' });
+  maxZoom: 18, attribution: '[insert correct attribution here!]' });
 var map = L.map('map', { center: new L.LatLng(51.5, 10), zoom: 10, layers: [osm] });
 var baseMaps = { "OSM Standard": osm };
 L.control.layers(baseMaps).addTo(map);
 
 // Now the interesting stuff, the new languageselector:
 map.addControl(L.languageSelector({
-	languages: new Array(
-		L.langObject('en', 'English', 'en.png'),
-		L.langObject('de', 'Deutsch', 'de.png'),
-		L.langObject('fr', 'Français', 'fr.png'),
-		L.langObject('ru', 'Русский', 'ru.png')
-	),
-	callback: changeLanguage
+  languages: new Array(
+    L.langObject('en', 'English', 'en.png'),
+    L.langObject('de', 'Deutsch', 'de.png'),
+    L.langObject('fr', 'Français', 'fr.png'),
+    L.langObject('ru', 'Русский', 'ru.png')
+  ),
+  callback: changeLanguage
 }));
 ```
 
@@ -84,4 +84,8 @@ If you provide an image, the image will be displayed as a symbol for the languag
 *leaflet-languageselector.css* is used to style the components of the control. Adapt it as you like.
 
 ## Language images
-No images are provided here. If you need some, there are a lot of free ones out there in the universe. For example http://commons.wikimedia.org/ or http://famfamfam.com/lab/icons/flags/ ("These flag icons are available for free use for any purpose with no requirement for attribution").
+Only some images are provided here - look at [Image info](/images/image_info.md). If you need more, there are a lot of free ones out there in the universe. For example https://openclipart.org/, http://commons.wikimedia.org/ or http://famfamfam.com/lab/icons/flags/ ("These flag icons are available for free use for any purpose with no requirement for attribution").
+
+## Best practice for presenting languages
+Consider these clues about [Best practice for presenting languages](http://www.flagsarenotlanguages.com/blog/best-practice-for-presenting-languages/).
+
