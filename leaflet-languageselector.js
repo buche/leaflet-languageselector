@@ -1,9 +1,13 @@
 "use strict";
 /**
  * Adds a language selector to Leaflet based maps.
- * License: CC0 (Creative Commons Zero), see http://creativecommons.org/publicdomain/zero/1.0/
+ * License: CC0 (Creative Commons Zero), see https://creativecommons.org/publicdomain/zero/1.0/
  * Project page: https://github.com/buche/leaflet-languageselector
  **/
+
+let buttonClassName = 'leaflet-control-languageselector-button';
+let buttonDisabledClassName = 'leaflet-control-languageselector-button-disabled';
+
 L.LanguageSelector = L.Control.extend({
 
   includes: L.Evented.prototype,
@@ -16,7 +20,6 @@ L.LanguageSelector = L.Control.extend({
     hideSelected: false,
     vertical: true,
     initialLanguage: null,
-    buttonClassName: 'leaflet-control-languageselector-button',
     button: true
   },
 
@@ -32,17 +35,24 @@ L.LanguageSelector = L.Control.extend({
   onAdd: function(map) {
     this._map = map;
     if (this.options.button) {
-      L.DomUtil.addClass(this._container, this.options.buttonClassName);
-      L.DomEvent.on(this._container, 'mouseover', this._fireMouseOver, this);
-      L.DomEvent.on(this._container, 'mouseout', this._fireMouseOut, this);
+      L.DomUtil.addClass(this._container, buttonClassName);
+	  L.DomEvent.on(this._container, 'mouseup', this._openSelector, this);
+	  
+	  // Add listener to the map to close the button on click on the map
+	  L.DomEvent.addListener(this._map, 'click', function (e) {
+        let languageButtonDisabled = document.getElementsByClassName(buttonDisabledClassName)[0];
+        if (languageButtonDisabled != undefined) {
+          languageButtonDisabled.classList.remove(buttonDisabledClassName);
+          languageButtonDisabled.classList.add(buttonClassName);
+        }
+      });
     }
     return this._container;
   },
 
   onRemove: function(map) {
     if (this.options.button) {
-      L.DomEvent.off(this._container, 'mouseover', this._fireMouseOver, this);
-      L.DomEvent.off(this._container, 'mouseout', this._fireMouseOut, this);
+     L.DomEvent.off(this._container, 'mouseup', this._openSelector, this);
     }
     this._container.style.display = 'none';
     this._map = null;
@@ -69,9 +79,9 @@ L.LanguageSelector = L.Control.extend({
       langDiv.id = 'languageselector_' + lang.id;
       langDiv._langselinstance = this;
       if (langDiv.addEventListener) {
-        langDiv.addEventListener('click', this._languageChanged, false);
+        langDiv.addEventListener('mouseup', this._languageChanged, false);
       } else {
-        langDiv.attachEvent('onclick', this._languageChanged);
+        langDiv.attachEvent('onmouseup', this._languageChanged);
       }
       if (this.options.hideSelected && this.options.initialLanguage && this.options.initialLanguage == lang.id) {
         langDiv.style.display = 'none';
@@ -107,28 +117,15 @@ L.LanguageSelector = L.Control.extend({
   },
 
   _isButton: function() {
-    return L.DomUtil.hasClass(this._container, this.options.buttonClassName);
+    return L.DomUtil.hasClass(this._container, buttonClassName);
   },
 
-  _toggleButton: function() {
+  _openSelector: function(e) {
     if (this._isButton()) {
-      L.DomUtil.removeClass(this._container, this.options.buttonClassName);
-    } else {
-      L.DomUtil.addClass(this._container, this.options.buttonClassName);
+      L.DomUtil.removeClass(this._container, buttonClassName);
+	  L.DomUtil.addClass(this._container, buttonDisabledClassName);
     }
-  },
-
-  _fireMouseOver: function(e) {
-    this.fire('mouseover');
-    this._toggleButton();
-  },
-
-  _fireMouseOut: function(e) {
-    if (!this._isButton()) {
-      this.fire('mouseout');
-      this._toggleButton();
-    }
-  },
+  }
 
 });
 

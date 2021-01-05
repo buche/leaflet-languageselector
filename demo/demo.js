@@ -27,8 +27,39 @@ function main() {
     L.langObject('ru', 'Русский',   '../images/ru.svg')
   ];
 
+  // Add horizontal versions as button
+  L.languageSelector({
+    languages: languageArray,
+    callback: changeLanguage,
+    title: 'Language',
+    vertical: false,
+    position: 'topleft',
+    button: true
+  }).addTo(map);
+  L.languageSelector({
+    languages: languageArray,
+    callback: changeLanguage,
+    vertical: false,
+    position: 'topleft',
+    button: true
+  }).addTo(map);
+  L.languageSelector({
+    languages: languageArrayWithIcons,
+    callback: changeLanguage,
+    title: 'Language',
+    vertical: false,
+    position: 'topleft',
+    button: true
+  }).addTo(map);
+  L.languageSelector({
+    languages: languageArrayWithIcons,
+    callback: changeLanguage,
+    vertical: false,
+    position: 'topleft',
+    button: true
+  }).addTo(map);
 
-  // bottomtopleftleft: Add vertical versions as button 
+  // Add vertical versions as button 
   L.languageSelector({
     languages: languageArray,
     callback: changeLanguage,
@@ -60,44 +91,12 @@ function main() {
     button: true
   }).addTo(map);
 
-  // topright: Add horizontal versions as button
-  L.languageSelector({
-    languages: languageArray,
-    callback: changeLanguage,
-    title: 'Language',
-    vertical: false,
-    position: 'topright',
-    button: true
-  }).addTo(map);
-  L.languageSelector({
-    languages: languageArray,
-    callback: changeLanguage,
-    vertical: false,
-    position: 'topright',
-    button: true
-  }).addTo(map);
-  L.languageSelector({
-    languages: languageArrayWithIcons,
-    callback: changeLanguage,
-    title: 'Language',
-    vertical: false,
-    position: 'topright',
-    button: true
-  }).addTo(map);
-  L.languageSelector({
-    languages: languageArrayWithIcons,
-    callback: changeLanguage,
-    vertical: false,
-    position: 'topright',
-    button: true
-  }).addTo(map);
-
-  // bottomright: Add vertical versions as button 
+  // Add vertical versions without button
   L.languageSelector({
     languages: languageArray,
     callback: changeLanguage,
     vertical: true,
-    position: 'bottomright',
+    position: 'topright',
     button: false
   }).addTo(map);
   L.languageSelector({
@@ -105,14 +104,14 @@ function main() {
     callback: changeLanguage,
     title: 'Language',
     vertical: true,
-    position: 'bottomright',
+    position: 'topright',
     button: false
   }).addTo(map);
   L.languageSelector({
     languages: languageArrayWithIcons,
     callback: changeLanguage,
     vertical: true,
-    position: 'bottomright',
+    position: 'topright',
     button: false
   }).addTo(map);
   L.languageSelector({
@@ -120,11 +119,11 @@ function main() {
     callback: changeLanguage,
     title: 'Language',
     vertical: true,
-    position: 'bottomright',
+    position: 'topright',
     button: false
   }).addTo(map);
 
-  // bottomleft: Add horizontal versions as button
+  // Add horizontal versions without button
   L.languageSelector({
     languages: languageArray,
     callback: changeLanguage,
