@@ -34,6 +34,7 @@ function main() {
     title: 'Language',
     vertical: false,
     position: 'topleft',
+    initialLanguage: 'en',
     button: true
   }).addTo(map);
   L.languageSelector({
@@ -41,6 +42,7 @@ function main() {
     callback: changeLanguage,
     vertical: false,
     position: 'topleft',
+    initialLanguage: 'en',
     button: true
   }).addTo(map);
   L.languageSelector({
@@ -49,6 +51,7 @@ function main() {
     title: 'Language',
     vertical: false,
     position: 'topleft',
+    initialLanguage: 'en',
     button: true
   }).addTo(map);
   L.languageSelector({
@@ -56,6 +59,7 @@ function main() {
     callback: changeLanguage,
     vertical: false,
     position: 'topleft',
+    initialLanguage: 'en',
     button: true
   }).addTo(map);
 
@@ -66,6 +70,7 @@ function main() {
     title: 'Language',
     vertical: true,
     position: 'topleft',
+    initialLanguage: 'en',
     button: true
   }).addTo(map);
   L.languageSelector({
@@ -73,6 +78,7 @@ function main() {
     callback: changeLanguage,
     vertical: true,
     position: 'topleft',
+    initialLanguage: 'en',
     button: true
   }).addTo(map);
   L.languageSelector({
@@ -81,6 +87,7 @@ function main() {
     title: 'Language',
     vertical: true,
     position: 'topleft',
+    initialLanguage: 'en',
     button: true
   }).addTo(map);
   L.languageSelector({
@@ -88,6 +95,7 @@ function main() {
     callback: changeLanguage,
     vertical: true,
     position: 'topleft',
+    initialLanguage: 'en',
     button: true
   }).addTo(map);
 
@@ -97,6 +105,7 @@ function main() {
     callback: changeLanguage,
     vertical: true,
     position: 'topright',
+    initialLanguage: 'en',
     button: false
   }).addTo(map);
   L.languageSelector({
@@ -105,6 +114,7 @@ function main() {
     title: 'Language',
     vertical: true,
     position: 'topright',
+    initialLanguage: 'en',
     button: false
   }).addTo(map);
   L.languageSelector({
@@ -112,6 +122,7 @@ function main() {
     callback: changeLanguage,
     vertical: true,
     position: 'topright',
+    initialLanguage: 'en',
     button: false
   }).addTo(map);
   L.languageSelector({
@@ -120,6 +131,7 @@ function main() {
     title: 'Language',
     vertical: true,
     position: 'topright',
+    initialLanguage: 'en',
     button: false
   }).addTo(map);
 
@@ -129,6 +141,7 @@ function main() {
     callback: changeLanguage,
     vertical: false,
     position: 'bottomleft',
+    initialLanguage: 'en',
     button: false
   }).addTo(map);
   L.languageSelector({
@@ -137,6 +150,7 @@ function main() {
     title: 'Language',
     vertical: false,
     position: 'bottomleft',
+    initialLanguage: 'en',
     button: false
   }).addTo(map);
   L.languageSelector({
@@ -144,6 +158,7 @@ function main() {
     callback: changeLanguage,
     vertical: false,
     position: 'bottomleft',
+    initialLanguage: 'en',
     button: false
   }).addTo(map);
   L.languageSelector({
@@ -152,17 +167,25 @@ function main() {
     title: 'Language',
     vertical: false,
     position: 'bottomleft',
+    initialLanguage: 'en',
     button: false
   }).addTo(map);
 
 }
 
 /**
- * Add or replace the language parameter of the URL and reload the page.
+ * Change the language
  * @param String id of the language
  */
 function changeLanguage(selectedLanguage) {
-  window.location.href = updateURLParameter(window.location.href, 'lang', selectedLanguage);
+  // Add or replace the language parameter of the URL
+  window.history.replaceState({}, '', updateURLParameter(window.location.href, 'lang', selectedLanguage));
+
+  // Set HTML lang attribut
+  document.body.parentElement.lang = selectedLanguage;
+
+  // Change the texts
+  document.getElementById('language').innerText = "Swiched to: '" + selectedLanguage + "'";
 }
 
 /**
