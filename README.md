@@ -71,7 +71,7 @@ Some *options* are available to configure the behaviour of the language selector
 * *title*: String ( **null** ) optional: Title of the control
 * *vertical*: Boolean ( **false** ) optional: If *true* renders the languages vertically instead of horizontally
 * *hideSelected*: Boolean ( **false** ) optional: If *true* hides the language currently used
-* *initialLanguage*: String ( **null** ) optional: Indicate the initial language of your page. It will be marked (when *hideSelected=true*) or hidden (when *hideSelected=true*) at the start.
+* *initialLanguage*: String ( **null** ) optional: Indicate the initial language of your page. It will be marked (when *hideSelected=false*) or hidden (when *hideSelected=true*) at the start.
 * *position*: String ( **'topright'** ) optional: Position of this control. Available are standard positions of Leaflet controls ('topright', 'topleft', 'bottomright', 'bottomleft').
 
 ## How to define languages and how to define what will be displayed
